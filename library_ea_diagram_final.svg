@@ -1,0 +1,531 @@
+<svg width="2000" height="2400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .entity { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2.5; }
+      .weak-entity { fill: #FFF9C4; stroke: #F57F17; stroke-width: 2.5; stroke-dasharray: 6,4; }
+      .relationship { fill: #FFE0B2; stroke: #E65100; stroke-width: 2.5; }
+      .attribute { fill: white; stroke: #666; stroke-width: 1.5; }
+      .key-attribute { fill: #FFCDD2; stroke: #C62828; stroke-width: 2; }
+      .derived-attribute { fill: #E8F5E9; stroke: #2E7D32; stroke-width: 1.5; stroke-dasharray: 3,3; }
+      .multivalued-attribute { fill: white; stroke: #666; stroke-width: 2.5; }
+      
+      .text { font-family: 'Arial', sans-serif; font-size: 13px; fill: #000; text-anchor: middle; }
+      .title { font-family: 'Arial', sans-serif; font-size: 15px; font-weight: bold; fill: #1565C0; text-anchor: middle; }
+      .attribute-text { font-family: 'Arial', sans-serif; font-size: 11px; fill: #333; text-anchor: middle; }
+      .small-text { font-family: 'Arial', sans-serif; font-size: 10px; fill: #555; }
+      .header { font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; fill: #0D47A1; text-anchor: middle; }
+      .subheader { font-family: 'Arial', sans-serif; font-size: 16px; fill: #1565C0; text-anchor: middle; }
+      
+      .line { stroke: #424242; stroke-width: 2; fill: none; }
+      .cardinality { font-family: 'Arial', sans-serif; font-size: 12px; font-weight: bold; fill: #D32F2F; }
+      .constraint-text { font-family: 'Arial', sans-serif; font-size: 11px; fill: #C62828; font-style: italic; }
+    </style>
+    
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#424242"/>
+    </marker>
+  </defs>
+
+  <!-- En-tête -->
+  <rect x="0" y="0" width="2000" height="80" fill="#E3F2FD" stroke="#1976D2" stroke-width="2"/>
+  <text x="1000" y="35" class="header">Modèle Entité-Association Complet</text>
+  <text x="1000" y="60" class="subheader">Système de Gestion de Bibliothèque - Laboratoires ECL</text>
+
+  <!-- Légende détaillée -->
+  <g transform="translate(50, 100)">
+    <rect x="0" y="0" width="350" height="180" fill="#FAFAFA" stroke="#BDBDBD" stroke-width="1" rx="5"/>
+    <text x="175" y="20" class="title" style="font-size: 14px;">LÉGENDE</text>
+    
+    <!-- Entité -->
+    <rect x="10" y="30" width="80" height="40" class="entity"/>
+    <text x="50" y="55" class="text" style="font-size: 11px;">Entité</text>
+    
+    <!-- Entité faible / sous-type -->
+    <rect x="100" y="30" width="80" height="40" class="weak-entity"/>
+    <text x="140" y="55" class="text" style="font-size: 11px;">Sous-type</text>
+    
+    <!-- Relation -->
+    <polygon points="200,50 230,30 260,50 230,70" class="relationship"/>
+    <text x="230" y="55" class="text" style="font-size: 11px;">Relation</text>
+    
+    <!-- Attribut clé -->
+    <ellipse cx="295" cy="50" rx="35" ry="18" class="key-attribute"/>
+    <text x="295" y="55" class="attribute-text" style="font-size: 10px;">Clé (PK)</text>
+    
+    <!-- Attribut normal -->
+    <ellipse cx="50" cy="100" rx="35" ry="18" class="attribute"/>
+    <text x="50" y="105" class="attribute-text" style="font-size: 10px;">Attribut</text>
+    
+    <!-- Attribut multivalué -->
+    <ellipse cx="50" cy="140" rx="35" ry="18" class="attribute"/>
+    <ellipse cx="50" cy="140" rx="30" ry="13" class="multivalued-attribute"/>
+    <text x="50" y="145" class="attribute-text" style="font-size: 10px;">Multi</text>
+    
+    <!-- Cardinalités -->
+    <text x="120" y="100" class="text" style="font-size: 11px; text-anchor: start;">Cardinalités:</text>
+    <text x="125" y="118" class="cardinality" style="font-size: 11px; text-anchor: start;">(0,1)</text>
+    <text x="165" y="118" class="text" style="font-size: 10px; text-anchor: start;">= optionnel, au plus un</text>
+    <text x="125" y="133" class="cardinality" style="font-size: 11px; text-anchor: start;">(1,1)</text>
+    <text x="165" y="133" class="text" style="font-size: 10px; text-anchor: start;">= obligatoire, exactement un</text>
+    <text x="125" y="148" class="cardinality" style="font-size: 11px; text-anchor: start;">(0,n)</text>
+    <text x="165" y="148" class="text" style="font-size: 10px; text-anchor: start;">= optionnel, plusieurs possibles</text>
+    <text x="125" y="163" class="cardinality" style="font-size: 11px; text-anchor: start;">(1,n)</text>
+    <text x="165" y="163" class="text" style="font-size: 10px; text-anchor: start;">= obligatoire, au moins un</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- SECTION 1: ENTITÉ PRINCIPALE PUBLICATION -->
+  <!-- ============================================ -->
+  
+  <!-- PUBLICATION (entité mère) -->
+  <g id="publication-entity">
+    <rect x="800" y="350" width="250" height="140" class="entity"/>
+    <text x="925" y="375" class="title">PUBLICATION</text>
+    <line x1="800" y1="385" x2="1050" y2="385" stroke="#1976D2" stroke-width="2"/>
+    <text x="925" y="405" class="text">id_publication</text>
+    <text x="925" y="425" class="text">titre</text>
+    <text x="925" y="445" class="text">annee_publication</text>
+    <text x="925" y="465" class="text">statut_disponibilite</text>
+    <text x="925" y="482" class="small-text" style="font-style: italic;">(ON_RACK, ISSUED_TO, LOST, TO_BE_BOUGHT)</text>
+  </g>
+  
+  <!-- Attribut clé de PUBLICATION -->
+  <ellipse cx="700" cy="420" rx="55" ry="22" class="key-attribute"/>
+  <text x="700" y="425" class="attribute-text">id_publication</text>
+  <line x1="755" y1="420" x2="800" y2="420" class="line"/>
+
+  <!-- ============================================ -->
+  <!-- SPÉCIALISATIONS DE PUBLICATION -->
+  <!-- ============================================ -->
+  
+  <!-- Ligne de spécialisation ISA -->
+  <line x1="925" y1="490" x2="925" y2="540" class="line" stroke-width="3"/>
+  <text x="960" y="520" class="title" style="fill: #E65100;">ISA</text>
+  <text x="960" y="535" class="small-text">(total, disjoint)</text>
+  
+  <!-- Triangle de spécialisation -->
+  <polygon points="925,540 875,570 975,570" fill="#FFE0B2" stroke="#E65100" stroke-width="2"/>
+  
+  <!-- Lignes vers sous-types -->
+  <line x1="875" y1="570" x2="575" y2="650" class="line" stroke-width="2.5"/>
+  <line x1="925" y1="570" x2="925" y2="650" class="line" stroke-width="2.5"/>
+  <line x1="975" y1="570" x2="1275" y2="650" class="line" stroke-width="2.5"/>
+
+  <!-- LIVRE (sous-type) -->
+  <g id="livre-entity">
+    <rect x="450" y="650" width="250" height="120" class="weak-entity"/>
+    <text x="575" y="675" class="title">LIVRE</text>
+    <line x1="450" y1="685" x2="700" y2="685" stroke="#F57F17" stroke-width="2"/>
+    <text x="575" y="705" class="text">ISBN (UK)</text>
+    <text x="575" y="725" class="text">editeur</text>
+    <text x="575" y="745" class="text">edition</text>
+    <text x="575" y="762" class="constraint-text">1-4 auteurs, max 4 catégories</text>
+  </g>
+
+  <!-- PERIODIQUE (sous-type) -->
+  <g id="periodique-entity">
+    <rect x="800" y="650" width="250" height="110" class="weak-entity"/>
+    <text x="925" y="675" class="title">PERIODIQUE</text>
+    <line x1="800" y1="685" x2="1050" y2="685" stroke="#F57F17" stroke-width="2"/>
+    <text x="925" y="705" class="text">numero_volume</text>
+    <text x="925" y="725" class="text">editeur</text>
+    <text x="925" y="745" class="text">edition</text>
+  </g>
+
+  <!-- RAPPORT_INTERNE (sous-type) -->
+  <g id="rapport-entity">
+    <rect x="1150" y="650" width="250" height="110" class="weak-entity"/>
+    <text x="1275" y="675" class="title">RAPPORT_INTERNE</text>
+    <line x1="1150" y1="685" x2="1400" y2="685" stroke="#F57F17" stroke-width="2"/>
+    <text x="1275" y="705" class="text">categorie_rapport</text>
+    <text x="1275" y="725" class="small-text" style="font-style: italic;">(ECL, PHD_THESIS, SCIENTIFIC)</text>
+    <text x="1275" y="752" class="constraint-text">Thèse: 1 auteur principal obligatoire</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- SECTION 2: AUTEUR ET RELATION ECRIT_PAR -->
+  <!-- ============================================ -->
+  
+  <!-- AUTEUR -->
+  <g id="auteur-entity">
+    <rect x="150" y="350" width="200" height="100" class="entity"/>
+    <text x="250" y="375" class="title">AUTEUR</text>
+    <line x1="150" y1="385" x2="350" y2="385" stroke="#1976D2" stroke-width="2"/>
+    <text x="250" y="405" class="text">id_auteur</text>
+    <text x="250" y="425" class="text">nom</text>
+    <text x="250" y="445" class="text">prenom</text>
+  </g>
+  
+  <!-- Attributs AUTEUR -->
+  <ellipse cx="80" cy="380" rx="45" ry="20" class="key-attribute"/>
+  <text x="80" y="385" class="attribute-text">id_auteur</text>
+  <line x1="125" y1="380" x2="150" y2="380" class="line"/>
+  
+  <ellipse cx="80" cy="420" rx="30" ry="18" class="attribute"/>
+  <text x="80" y="425" class="attribute-text">nom</text>
+  <line x1="110" y1="420" x2="150" y2="420" class="line"/>
+
+  <!-- Relation ECRIT_PAR -->
+  <g id="ecrit-par-relation">
+    <polygon points="525,400 585,360 645,400 585,440" class="relationship"/>
+    <text x="585" y="395" class="text" style="font-size: 12px;">ECRIT_PAR</text>
+    <text x="585" y="415" class="small-text">(ordre_auteur,</text>
+    <text x="585" y="428" class="small-text">role)</text>
+  </g>
+  
+  <!-- Lignes ECRIT_PAR -->
+  <line x1="350" y1="400" x2="525" y2="400" class="line"/>
+  <line x1="645" y1="400" x2="800" y2="400" class="line"/>
+  
+  <!-- Cardinalités ECRIT_PAR -->
+  <text x="375" y="390" class="cardinality">(1,n)</text>
+  <text x="760" y="390" class="cardinality">(1,n)</text>
+  
+  <!-- Contrainte spéciale LIVRE -->
+  <line x1="585" y1="440" x2="575" y2="650" class="line" stroke-dasharray="4,4" stroke="#C62828"/>
+  <text x="550" y="550" class="constraint-text">LIVRE: min 1, max 4</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 3: LABORATOIRE ET RELATIONS -->
+  <!-- ============================================ -->
+  
+  <!-- LABORATOIRE -->
+  <g id="laboratoire-entity">
+    <rect x="1450" y="350" width="220" height="100" class="entity"/>
+    <text x="1560" y="375" class="title">LABORATOIRE</text>
+    <line x1="1450" y1="385" x2="1670" y2="385" stroke="#1976D2" stroke-width="2"/>
+    <text x="1560" y="405" class="text">id_laboratoire</text>
+    <text x="1560" y="425" class="text">nom_laboratoire</text>
+    <text x="1560" y="445" class="text">adresse</text>
+  </g>
+  
+  <!-- Attributs LABORATOIRE -->
+  <ellipse cx="1750" cy="380" rx="60" ry="20" class="key-attribute"/>
+  <text x="1750" y="385" class="attribute-text">id_laboratoire</text>
+  <line x1="1670" y1="380" x2="1690" y2="380" class="line"/>
+  <line x1="1690" y1="380" x2="1690" y2="380" class="line"/>
+
+  <!-- Relation POSSEDE -->
+  <g id="possede-relation">
+    <polygon points="1210,400 1270,360 1330,400 1270,440" class="relationship"/>
+    <text x="1270" y="403" class="text" style="font-size: 12px;">POSSEDE</text>
+  </g>
+  
+  <!-- Lignes POSSEDE -->
+  <line x1="1050" y1="400" x2="1210" y2="400" class="line"/>
+  <line x1="1330" y1="400" x2="1450" y2="400" class="line"/>
+  
+  <!-- Cardinalités POSSEDE -->
+  <text x="1080" y="390" class="cardinality">(1,1)</text>
+  <text x="1400" y="390" class="cardinality">(1,1)</text>
+  <text x="1270" y="455" class="constraint-text">1 copie par publication</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 4: LIBRAIRIE ET ACHATS -->
+  <!-- ============================================ -->
+  
+  <!-- LIBRAIRIE -->
+  <g id="librairie-entity">
+    <rect x="1450" y="700" width="220" height="100" class="entity"/>
+    <text x="1560" y="725" class="title">LIBRAIRIE</text>
+    <line x1="1450" y1="735" x2="1670" y2="735" stroke="#1976D2" stroke-width="2"/>
+    <text x="1560" y="755" class="text">id_librairie</text>
+    <text x="1560" y="775" class="text">nom_librairie</text>
+    <text x="1560" y="795" class="text">adresse</text>
+  </g>
+
+  <!-- Relation ACHETE_A -->
+  <g id="achete-relation">
+    <polygon points="1210,705 1270,665 1330,705 1270,745" class="relationship"/>
+    <text x="1270" y="700" class="text" style="font-size: 12px;">ACHETE_A</text>
+    <text x="1270" y="718" class="small-text">(prix_achat,</text>
+    <text x="1270" y="731" class="small-text">devise, date)</text>
+  </g>
+  
+  <!-- Lignes ACHETE_A -->
+  <line x1="1050" y1="450" x2="1150" y2="450" class="line"/>
+  <line x1="1150" y1="450" x2="1150" y2="705" class="line"/>
+  <line x1="1150" y1="705" x2="1210" y2="705" class="line"/>
+  <line x1="1330" y1="705" x2="1450" y2="705" class="line"/>
+  
+  <!-- Cardinalités ACHETE_A -->
+  <text x="1070" y="440" class="cardinality">(0,1)</text>
+  <text x="1400" y="695" class="cardinality">(0,n)</text>
+  <text x="1270" y="760" class="constraint-text">si statut ≠ TO_BE_BOUGHT</text>
+
+  <!-- TAUX_CHANGE (entité liée) -->
+  <g id="taux-entity">
+    <rect x="1450" y="870" width="220" height="110" class="entity"/>
+    <text x="1560" y="895" class="title">TAUX_CHANGE</text>
+    <line x1="1450" y1="905" x2="1670" y2="905" stroke="#1976D2" stroke-width="2"/>
+    <text x="1560" y="925" class="text">id_taux</text>
+    <text x="1560" y="945" class="text">devise</text>
+    <text x="1560" y="965" class="text">taux_vers_euro</text>
+    <text x="1560" y="982" class="small-text">date_mise_a_jour</text>
+  </g>
+  
+  <!-- Lien logique ACHETE_A -> TAUX_CHANGE -->
+  <line x1="1560" y1="800" x2="1560" y2="870" class="line" stroke-dasharray="5,5"/>
+  <text x="1600" y="840" class="small-text">utilise pour</text>
+  <text x="1600" y="853" class="small-text">conversion</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 5: UTILISATEUR ET EMPRUNTS -->
+  <!-- ============================================ -->
+  
+  <!-- UTILISATEUR -->
+  <g id="utilisateur-entity">
+    <rect x="150" y="900" width="200" height="100" class="entity"/>
+    <text x="250" y="925" class="title">UTILISATEUR</text>
+    <line x1="150" y1="935" x2="350" y2="935" stroke="#1976D2" stroke-width="2"/>
+    <text x="250" y="955" class="text">email</text>
+    <text x="250" y="975" class="text">nom</text>
+    <text x="250" y="995" class="text">prenom</text>
+  </g>
+  
+  <!-- Attribut clé UTILISATEUR -->
+  <ellipse cx="80" cy="950" rx="35" ry="20" class="key-attribute"/>
+  <text x="80" y="955" class="attribute-text">email</text>
+  <line x1="115" y1="950" x2="150" y2="950" class="line"/>
+
+  <!-- Relation EMPRUNTE -->
+  <g id="emprunte-relation">
+    <polygon points="550,700 610,660 670,700 610,740" class="relationship"/>
+    <text x="610" y="695" class="text" style="font-size: 12px;">EMPRUNTE</text>
+    <text x="610" y="713" class="small-text">(date_emprunt,</text>
+    <text x="610" y="726" class="small-text">date_retour_prevue)</text>
+  </g>
+  
+  <!-- Lignes EMPRUNTE -->
+  <line x1="575" y1="770" x2="575" y2="850" class="line"/>
+  <line x1="575" y1="850" x2="250" y2="850" class="line"/>
+  <line x1="250" y1="850" x2="250" y2="900" class="line"/>
+  <line x1="610" y1="740" x2="610" y2="770" class="line"/>
+  <line x1="610" y1="770" x2="575" y2="770" class="line"/>
+  
+  <!-- Cardinalités EMPRUNTE -->
+  <text x="590" y="795" class="cardinality">(1,1)</text>
+  <text x="270" y="870" class="cardinality">(0,n)</text>
+  <text x="475" y="835" class="constraint-text">si statut = ISSUED_TO</text>
+
+  <!-- Relation AUTORISE_A_EMPRUNTER -->
+  <g id="autorise-relation">
+    <polygon points="850,950 930,910 1010,950 930,990" class="relationship"/>
+    <text x="930" y="943" class="text" style="font-size: 11px;">AUTORISE_A</text>
+    <text x="930" y="960" class="text" style="font-size: 11px;">EMPRUNTER</text>
+  </g>
+  
+  <!-- Lignes AUTORISE_A_EMPRUNTER -->
+  <line x1="350" y1="950" x2="850" y2="950" class="line"/>
+  <line x1="1010" y1="950" x2="1560" y2="950" class="line"/>
+  <line x1="1560" y1="950" x2="1560" y2="450" class="line"/>
+  
+  <!-- Cardinalités AUTORISE_A_EMPRUNTER -->
+  <text x="375" y="940" class="cardinality">(1,n)</text>
+  <text x="1070" y="940" class="cardinality">(0,n)</text>
+  <text x="1580" y="700" class="small-text">droits d'accès</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 6: MOTS-CLÉS -->
+  <!-- ============================================ -->
+  
+  <!-- MOT_CLE -->
+  <g id="motcle-entity">
+    <rect x="150" y="1150" width="200" height="80" class="entity"/>
+    <text x="250" y="1175" class="title">MOT_CLE</text>
+    <line x1="150" y1="1185" x2="350" y2="1185" stroke="#1976D2" stroke-width="2"/>
+    <text x="250" y="1205" class="text">id_mot_cle</text>
+    <text x="250" y="1225" class="text">libelle</text>
+  </g>
+  
+  <!-- Attributs MOT_CLE -->
+  <ellipse cx="80" cy="1190" rx="50" ry="20" class="key-attribute"/>
+  <text x="80" y="1195" class="attribute-text">id_mot_cle</text>
+  <line x1="130" y1="1190" x2="150" y2="1190" class="line"/>
+
+  <!-- Relation INTERESSE_PAR -->
+  <g id="interesse-relation">
+    <polygon points="250,1060 310,1020 370,1060 310,1100" class="relationship"/>
+    <text x="310" y="1055" class="text" style="font-size: 11px;">INTERESSE</text>
+    <text x="310" y="1072" class="text" style="font-size: 11px;">PAR</text>
+  </g>
+  
+  <!-- Lignes INTERESSE_PAR -->
+  <line x1="250" y1="1000" x2="250" y2="1020" class="line"/>
+  <line x1="250" y1="1020" x2="310" y2="1020" class="line"/>
+  <line x1="310" y1="1100" x2="250" y2="1100" class="line"/>
+  <line x1="250" y1="1100" x2="250" y2="1150" class="line"/>
+  
+  <!-- Cardinalités INTERESSE_PAR -->
+  <text x="270" y="1015" class="cardinality">(0,n)</text>
+  <text x="270" y="1140" class="cardinality">(0,n)</text>
+  <text x="320" y="1120" class="small-text">centres d'intérêt</text>
+
+  <!-- Relation DECRIT_PAR -->
+  <g id="decrit-relation">
+    <polygon points="550,1060 610,1020 670,1060 610,1100" class="relationship"/>
+    <text x="610" y="1055" class="text" style="font-size: 11px;">DECRIT_PAR</text>
+  </g>
+  
+  <!-- Lignes DECRIT_PAR -->
+  <line x1="350" y1="1190" x2="510" y2="1190" class="line"/>
+  <line x1="510" y1="1190" x2="510" y2="1060" class="line"/>
+  <line x1="510" y1="1060" x2="550" y2="1060" class="line"/>
+  <line x1="670" y1="1060" x2="800" y2="1060" class="line"/>
+  <line x1="800" y1="1060" x2="800" y2="490" class="line"/>
+  
+  <!-- Cardinalités DECRIT_PAR -->
+  <text x="380" y="1180" class="cardinality">(0,n)</text>
+  <text x="780" y="800" class="cardinality">(0,n)</text>
+  <text x="810" y="750" class="small-text">mots-clés</text>
+  <text x="810" y="765" class="small-text">publication</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 7: CATÉGORIES -->
+  <!-- ============================================ -->
+  
+  <!-- CATEGORIE -->
+  <g id="categorie-entity">
+    <rect x="150" y="650" width="200" height="80" class="entity"/>
+    <text x="250" y="675" class="title">CATEGORIE</text>
+    <line x1="150" y1="685" x2="350" y2="685" stroke="#1976D2" stroke-width="2"/>
+    <text x="250" y="705" class="text">id_categorie</text>
+    <text x="250" y="725" class="text">nom_categorie</text>
+  </g>
+  
+  <!-- Attribut clé CATEGORIE -->
+  <ellipse cx="80" cy="690" rx="55" ry="20" class="key-attribute"/>
+  <text x="80" y="695" class="attribute-text">id_categorie</text>
+  <line x1="135" y1="690" x2="150" y2="690" class="line"/>
+
+  <!-- Relation APPARTIENT_A -->
+  <g id="appartient-relation">
+    <polygon points="365,705 425,665 485,705 425,745" class="relationship"/>
+    <text x="425" y="700" class="text" style="font-size: 11px;">APPARTIENT</text>
+    <text x="425" y="717" class="text" style="font-size: 11px;">A</text>
+  </g>
+  
+  <!-- Lignes APPARTIENT_A -->
+  <line x1="350" y1="705" x2="365" y2="705" class="line"/>
+  <line x1="485" y1="705" x2="700" y2="705" class="line"/>
+  
+  <!-- Cardinalités APPARTIENT_A -->
+  <text x="355" y="695" class="cardinality">(0,n)</text>
+  <text x="495" y="695" class="cardinality">(0,4)</text>
+  <text x="425" y="760" class="constraint-text">max 4 catégories/livre</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 8: PROPOSITIONS D'ACHAT -->
+  <!-- ============================================ -->
+  
+  <!-- PROPOSITION_ACHAT -->
+  <g id="proposition-entity">
+    <rect x="500" y="1150" width="240" height="120" class="entity"/>
+    <text x="620" y="1175" class="title">PROPOSITION_ACHAT</text>
+    <line x1="500" y1="1185" x2="740" y2="1185" stroke="#1976D2" stroke-width="2"/>
+    <text x="620" y="1205" class="text">id_proposition</text>
+    <text x="620" y="1225" class="text">date_proposition</text>
+    <text x="620" y="1245" class="text">titre_propose</text>
+    <text x="620" y="1265" class="small-text">type, isbn, auteurs</text>
+  </g>
+
+  <!-- Relation PROPOSE_ACHAT -->
+  <g id="propose-relation">
+    <polygon points="425,1060 485,1020 545,1060 485,1100" class="relationship"/>
+    <text x="485" y="1055" class="text" style="font-size: 11px;">PROPOSE</text>
+    <text x="485" y="1072" class="text" style="font-size: 11px;">ACHAT</text>
+  </g>
+  
+  <!-- Lignes PROPOSE_ACHAT -->
+  <line x1="310" y1="1060" x2="425" y2="1060" class="line"/>
+  <line x1="545" y1="1060" x2="620" y2="1060" class="line"/>
+  <line x1="620" y1="1060" x2="620" y2="1150" class="line"/>
+  
+  <!-- Cardinalités PROPOSE_ACHAT -->
+  <text x="350" y="1050" class="cardinality">(0,n)</text>
+  <text x="580" y="1110" class="cardinality">(1,1)</text>
+
+  <!-- ============================================ -->
+  <!-- SECTION 9: CONTRAINTES ET NOTES -->
+  <!-- ============================================ -->
+  
+  <g transform="translate(100, 1350)">
+    <rect x="0" y="0" width="1800" height="350" fill="#FFF3E0" stroke="#E65100" stroke-width="2" rx="8"/>
+    
+    <text x="900" y="25" class="title" style="font-size: 16px; fill: #E65100;">CONTRAINTES D'INTÉGRITÉ ET RÈGLES MÉTIER</text>
+    
+    <!-- Colonne 1 -->
+    <g transform="translate(20, 50)">
+      <text x="0" y="0" class="title" style="font-size: 13px; text-anchor: start;">Contraintes d'Entité:</text>
+      <text x="0" y="20" class="small-text" style="text-anchor: start;">• PUBLICATION: id_publication unique (PK)</text>
+      <text x="0" y="38" class="small-text" style="text-anchor: start;">• LIVRE: ISBN unique (UK - Unique Key)</text>
+      <text x="0" y="56" class="small-text" style="text-anchor: start;">• UTILISATEUR: email unique (PK)</text>
+      <text x="0" y="74" class="small-text" style="text-anchor: start;">• Spécialisation: totale et disjointe</text>
+      <text x="5" y="92" class="small-text" style="text-anchor: start; font-style: italic;">→ Chaque publication est exactement un type</text>
+      
+      <text x="0" y="120" class="title" style="font-size: 13px; text-anchor: start;">Valeurs Énumérées:</text>
+      <text x="0" y="140" class="small-text" style="text-anchor: start;">• statut_disponibilite ∈ {ON_RACK, ISSUED_TO,</text>
+      <text x="5" y="155" class="small-text" style="text-anchor: start;">LOST, TO_BE_BOUGHT}</text>
+      <text x="0" y="173" class="small-text" style="text-anchor: start;">• categorie_rapport ∈ {ECL, PHD_THESIS,</text>
+      <text x="5" y="188" class="small-text" style="text-anchor: start;">SCIENTIFIC}</text>
+      <text x="0" y="206" class="small-text" style="text-anchor: start;">• devise ∈ {EUR, USD, GBP}</text>
+      
+      <text x="0" y="234" class="title" style="font-size: 13px; text-anchor: start;">Formats:</text>
+      <text x="0" y="254" class="small-text" style="text-anchor: start;">• ISBN: format ISBN-10 ou ISBN-13</text>
+      <text x="0" y="272" class="small-text" style="text-anchor: start;">• email: format standard (xxx@domain.ext)</text>
+      <text x="0" y="290" class="small-text" style="text-anchor: start;">• annee_publication: 1000 ≤ année ≤ année courante+1</text>
+    </g>
+    
+    <!-- Colonne 2 -->
+    <g transform="translate(600, 50)">
+      <text x="0" y="0" class="title" style="font-size: 13px; text-anchor: start;">Contraintes de Cardinalité:</text>
+      <text x="0" y="20" class="small-text" style="text-anchor: start;">• LIVRE: 1 ≤ nombre d'auteurs ≤ 4</text>
+      <text x="0" y="38" class="small-text" style="text-anchor: start;">• RAPPORT_INTERNE (Thèse): exactement 1 auteur</text>
+      <text x="5" y="53" class="small-text" style="text-anchor: start; font-style: italic;">principal obligatoire</text>
+      <text x="0" y="71" class="small-text" style="text-anchor: start;">• LIVRE: 0 ≤ nombre de catégories ≤ 4</text>
+      <text x="0" y="89" class="small-text" style="text-anchor: start;">• PUBLICATION: appartient à exactement 1 lab</text>
+      <text x="0" y="107" class="small-text" style="text-anchor: start;">• PUBLICATION: achetée à 0 ou 1 librairie</text>
+      <text x="0" y="125" class="small-text" style="text-anchor: start;">• PUBLICATION: empruntée par 0 ou 1 utilisateur</text>
+      
+      <text x="0" y="153" class="title" style="font-size: 13px; text-anchor: start;">Contraintes de Cohérence:</text>
+      <text x="0" y="173" class="small-text" style="text-anchor: start;">• Si statut = ISSUED_TO ⟺ ∃ relation EMPRUNTE</text>
+      <text x="0" y="191" class="small-text" style="text-anchor: start;">• Si statut = TO_BE_BOUGHT ⟹ pas de LIBRAIRIE</text>
+      <text x="0" y="209" class="small-text" style="text-anchor: start;">• EMPRUNTE ⟹ date_retour_prevue ≥ date_emprunt</text>
+      <text x="0" y="227" class="small-text" style="text-anchor: start;">• prix_achat > 0 et taux_vers_euro > 0</text>
+      
+      <text x="0" y="255" class="title" style="font-size: 13px; text-anchor: start;">Droits d'Accès:</text>
+      <text x="0" y="275" class="small-text" style="text-anchor: start;">• Un utilisateur peut emprunter une publication</text>
+      <text x="5" y="290" class="small-text" style="text-anchor: start;">uniquement s'il est autorisé dans le lab propriétaire</text>
+      <text x="0" y="308" class="small-text" style="text-anchor: start;">• Formellement: ∀ emprunt, ∃ autorisation correspondante</text>
+    </g>
+    
+    <!-- Colonne 3 -->
+    <g transform="translate(1200, 50)">
+      <text x="0" y="0" class="title" style="font-size: 13px; text-anchor: start;">Règles Métier:</text>
+      <text x="0" y="20" class="small-text" style="text-anchor: start;">• Une seule copie physique par publication</text>
+      <text x="0" y="38" class="small-text" style="text-anchor: start;">• Pas de doublons dans la base (vérifier ISBN)</text>
+      <text x="0" y="56" class="small-text" style="text-anchor: start;">• Publication LOST: garde trace historique</text>
+      <text x="0" y="74" class="small-text" style="text-anchor: start;">• Prix stockés en devise d'origine</text>
+      <text x="0" y="92" class="small-text" style="text-anchor: start;">• Conversion via TAUX_CHANGE pour requêtes</text>
+      
+      <text x="0" y="120" class="title" style="font-size: 13px; text-anchor: start;">Notifications:</text>
+      <text x="0" y="140" class="small-text" style="text-anchor: start;">• Nouvelle publication: notifier utilisateurs</text>
+      <text x="5" y="155" class="small-text" style="text-anchor: start;">ayant mots-clés correspondants</text>
+      <text x="0" y="173" class="small-text" style="text-anchor: start;">• Retour de publication: notifier utilisateurs</text>
+      <text x="5" y="188" class="small-text" style="text-anchor: start;">en attente (centres d'intérêt)</text>
+      
+      <text x="0" y="216" class="title" style="font-size: 13px; text-anchor: start;">Workflow Proposition:</text>
+      <text x="0" y="236" class="small-text" style="text-anchor: start;">1. Utilisateur crée PROPOSITION_ACHAT</text>
+      <text x="0" y="254" class="small-text" style="text-anchor: start;">2. Gestionnaire lab examine proposition</text>
+      <text x="0" y="272" class="small-text" style="text-anchor: start;">3. Si approuvée: création PUBLICATION</text>
+      <text x="5" y="287" class="small-text" style="text-anchor: start;">avec statut = TO_BE_BOUGHT</text>
+      <text x="0" y="305" class="small-text" style="text-anchor: start;">4. Après achat: ajout relation ACHETE_A</text>
+      <text x="5" y="320" class="small-text" style="text-anchor: start;">+ changement statut → ON_RACK</text>
+    </g>
+  </g>
+
+  <!-- Pied de page -->
+  <rect x="0" y="1720" width="2000" height="50" fill="#E3F2FD" stroke="#1976D2" stroke-width="2"/>
+  <text x="1000" y="1745" class="text" style="font-size: 14px; font-weight: bold;">Projet 2 - Base de Données Bibliothèque ECL</text>
+  <text x="1000" y="1762" class="small-text">Modèle Entité-Association Complet | 9 Entités | 9 Relations | Cardinalités Détaillées</text>
+</svg>
